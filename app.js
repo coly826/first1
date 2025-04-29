@@ -42,11 +42,11 @@ app.get('/', (req, res) => {
 });
 
 
-module.exports = app;
+
 
 app.use((err, req, res, next) => {
   console.error('Erreur serveur :', err);
   res.status(500).send('Erreur interne du serveur.');
 });
 // Lancement du serveur
-app.listen(3000, () => console.log('Server started on http://localhost:3000'));
+module.exports = app;
