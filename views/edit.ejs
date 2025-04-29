@@ -1,0 +1,38 @@
+<%- include('layout/navbar') %>
+<%- include('layout/sidebar.ejs') %>
+
+<div class="container mt-5">
+  <h2 class="text-center">Modifier un hôtel</h2>
+  <form method="POST" action="/hotels/edit/<%= hotel._id %>" enctype="multipart/form-data" class="row mt-4">
+    <div class="col-md-6">
+      <label>Nom de l'hôtel</label>
+      <input type="text" name="name" class="form-control" value="<%= hotel.name %>" required><br>
+      <label>Email</label>
+      <input type="email" name="email" class="form-control" value="<%= hotel.email %>" required><br>
+      <label>Prix par nuit</label>
+      <input type="number" name="price" class="form-control" value="<%= hotel.price %>" required><br>
+    </div>
+    <div class="col-md-6">
+      <label>Adresse</label>
+      <input type="text" name="address" class="form-control" value="<%= hotel.address %>" required><br>
+      <label>Téléphone</label>
+      <input type="text" name="phone" class="form-control" value="<%= hotel.phone %>" required><br>
+      <label>Devise</label>
+      <input type="text" name="currency" class="form-control" value="<%= hotel.currency %>" required><br>
+    </div>
+    <div class="col-12">
+      <label>Image actuelle</label><br>
+      <% if (hotel.image) { %>
+        <img src="/uploads/<%= hotel.image %>" width="150" class="mb-3">
+      <% } %><br>
+      <label>Nouvelle image (facultatif)</label>
+      <input type="file" name="image" class="form-control">
+    </div>
+    <div class="text-end mt-3">
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <a href="/hotels" class="btn btn-secondary">Annuler</a>
+    </div>
+  </form>
+</div>
+
+<%- include('layout/footer') %>
