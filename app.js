@@ -44,10 +44,7 @@ app.get('/', (req, res) => {
 
 
 
-app.use((err, req, res, next) => {
-  console.error('Erreur serveur :', err);
-  res.status(500).send('Erreur interne du serveur.');
-});
+
 // Lancement du serveur
 module.exports = app;
 
