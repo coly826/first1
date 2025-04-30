@@ -2,9 +2,10 @@ const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const session = require('express-session');
+const serverless = require('serverless-http');
 const app = express();
 
-
+// Connexion MongoDB
 // Connexion MongoDB
 mongoose.connect("mongodb+srv://blindecoly:coly826@aplicationxy.kaumhiu.mongodb.net/projetstage?retryWrites=true&w=majority&appName=aplicationxy")
   .then(() => console.log("✅ MongoDB connecté"))
@@ -14,38 +15,24 @@ mongoose.connect("mongodb+srv://blindecoly:coly826@aplicationxy.kaumhiu.mongodb.
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
-
-
-
-// Middleware pour les fichiers statiques
+// Middleware statique
 app.use('/uploads', express.static('public/uploads'));
 
-// 🔥 Place express-session AVANT les routes
+// Session
 app.use(session({
   secret: 'secret',
   resave: false,
   saveUninitialized: false
 }));
 
-// Middleware pour rendre `user` accessible dans toutes les vues
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
-// 🔁 Routes
+// Routes
 app.use('/', require('./routes/auth'));
 app.use('/hotels', require('./routes/hotel'));
 
-app.get('/', (req, res) => {
-  res.send('Hello from Node.js on Vercel!');
-});
-
-
-
-
-
-// Lancement du serveur
-module.exports = app;
-
-app.listen(3000, () => console.log('Server started on http://localhost:3000'));
+// Export pour serverless
+module.exports.handler = serverless(app);
