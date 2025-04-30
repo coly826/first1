@@ -168,22 +168,29 @@ router.get('/register', (req, res) => {
 });
 
 // Traitement du formulaire d'inscription
+// Traitement du formulaire d'inscription
 router.post('/register', upload.single('image'), async (req, res) => {
-  const { nom, adresse, email, password, terms } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const { nom, adresse, email, password, terms } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = new User({
-    nom,
-    adresse,
-    email,
-    password: hashedPassword,
-    image: req.file ? req.file.filename : null,
-    termsAccepted: terms === 'on'
-  });
+    const newUser = new User({
+      nom,
+      adresse,
+      email,
+      password: hashedPassword,
+      image: req.file ? req.file.filename : null,
+      termsAccepted: terms === 'on'
+    });
 
-  await newUser.save();
-  res.redirect('/login');
+    await newUser.save();
+    res.redirect('/login');
+  } catch (err) {
+    console.error("Erreur lors de l'inscription :", err);
+    res.status(500).send("Erreur lors de l'inscription.");
+  }
 });
+
 
 // Formulaire de connexion
 router.get('/login', (req, res) => {
