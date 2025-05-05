@@ -150,6 +150,25 @@
         font-size: 10px;
         font-weight: bold;
     }
+
+   
+    .online-status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  
+  background-color: #28a745;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+.profile-section {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top:250px; /* pousse en bas */
+}
   </style>
   <nav class="navbar bg-white navbar-expand-lg navbar-light navbar-custom shadow-sm fixed-top">
     <div class="container-fluid">
@@ -179,13 +198,16 @@
         </div>
 
           <!-- Image de profil (si l'utilisateur en a une) -->
-          <% if (user && user.image) { %>
-            <img src="/uploads/<%= user.image %>" class="profile-pic rounded-circle" alt="Profil" width="40"
-              height="40">
-            <% } else { %>
-              <img src="https://via.placeholder.com/40" class="profile-pic rounded-circle" alt="Profil" width="40"
-                height="40">
-              <% } %>
+          <div class="position-relative d-inline-block">
+            <% if (user && user.image) { %>
+                <img src="/uploads/<%= user.image %>" class="profile-pic rounded-circle" alt="Profil" width="40"
+                    height="40">
+                <% } else { %>
+                    <img src="https://via.placeholder.com/40" class="profile-pic rounded-circle" alt="Profil" width="40"
+                        height="40">
+                    <% } %>
+                        <span class="online-status"></span>
+        </div>
 
                 <!-- Bouton de déconnexion -->
                 <form action="/logout" method="POST" class="mb-0">

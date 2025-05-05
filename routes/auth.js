@@ -231,6 +231,17 @@ router.post('/logout', (req, res) => {
 });
 
 
+// Liste des utilisateurs
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();  // Récupérer tous les utilisateurs
+    res.render('users', { users });   // Afficher la vue avec les utilisateurs
+  } catch (err) {
+    console.error('Erreur lors de la récupération des utilisateurs :', err);
+    res.status(500).send('Erreur serveur');
+  }
+});
+
 
 
 
