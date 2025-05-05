@@ -36,15 +36,8 @@
       z-index: 1040;
     }
 
-    .sidebar {
-      width: 220px;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: #343a40;
-      z-index: 1040;
-    }
+   
+
 
     .sidebar a {
       display: block;
@@ -151,29 +144,78 @@
         font-weight: bold;
     }
 
-   
-    .online-status {
+    .sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: #343a40;
+  padding: 10px;
+  position: absolute;
+  width: 250px; /* largeur fixe par défaut */
+}
+
+.online-status {
   position: absolute;
   bottom: 0;
   right: 0;
   width: 10px;
   height: 10px;
-  
   background-color: #28a745;
   border: 2px solid white;
   border-radius: 50%;
 }
+
 .profile-section {
   display: flex;
   gap: 6px;
   align-items: center;
-  margin-top:250px; /* pousse en bas */
+  margin-top: auto;
 }
+
+/* Responsive pour tablettes */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100px;
+    padding: 8px;
+  }
+
+  .profile-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* Responsive pour petits écrans (mobiles) */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .profile-section {
+    margin-top: 0;
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .online-status {
+    width: 8px;
+    height: 8px;
+    bottom: 2px;
+    right: 2px;
+  }
+}
+
   </style>
   <nav class="navbar bg-white navbar-expand-lg navbar-light navbar-custom shadow-sm fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" href="#">
-         Liste des Hôtels
+        &ensp; &ensp; Liste des Hôtels
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -198,15 +240,43 @@
         </div>
 
           <!-- Image de profil (si l'utilisateur en a une) -->
-          <div class="position-relative d-inline-block">
+          <div class="position-relative d-inline-block dropdown">
             <% if (user && user.image) { %>
-                <img src="/uploads/<%= user.image %>" class="profile-pic rounded-circle" alt="Profil" width="40"
-                    height="40">
-                <% } else { %>
-                    <img src="https://via.placeholder.com/40" class="profile-pic rounded-circle" alt="Profil" width="40"
-                        height="40">
+                <img src="/uploads/<%= user.image %>" 
+                     class="profile-pic rounded-circle dropdown-toggle" 
+                     alt="Profil" 
+                     width="40" height="40" 
+                     data-bs-toggle="dropdown" 
+                     aria-expanded="false">
+            <% } else { %>
+                <img src="https://via.placeholder.com/40" 
+                     class="profile-pic rounded-circle dropdown-toggle" 
+                     alt="Profil" 
+                     width="40" height="40" 
+                     data-bs-toggle="dropdown" 
+                     aria-expanded="false">
+            <% } %>
+            <span class="online-status"></span>
+        
+            <!-- Dropdown Menu -->
+            <ul class="dropdown-menu dropdown-menu-end mt-2">
+                <li class="px-3 py-2  text-center text-primary">
+                    <% if (user && user.image) { %>
+                        <img src="/uploads/<%= user.image %>" class="profile-pic rounded-circle mb-2" alt="Profil" width="50" height="50">
+                    <% } else { %>
+                        <img src="https://via.placeholder.com/50" class="profile-pic rounded-circle mb-2" alt="Profil">
                     <% } %>
-                        <span class="online-status"></span>
+                    <p class="mb-1" style="font-size: 12px;">
+                        <i class="bi bi-person-fill me-1"></i><strong> </strong> <%= user.nom %>
+                    </p>
+                    <p class="mb-1" style="font-size: 12px;">
+                        <i class="bi bi-envelope-fill me-1"></i><strong> </strong> <%= user.email %>
+                    </p>
+                    <p class="mb-0" style="font-size: 12px;">
+                        <i class="bi bi-geo-alt-fill me-1"></i><strong> </strong> <%= user.adresse %>
+                    </p>
+                </li>
+            </ul>
         </div>
 
                 <!-- Bouton de déconnexion -->
@@ -233,7 +303,7 @@
         
           <div class="row bg-white justify-content-center ">
             <div class="col"><br>
-              <p class="text-muted">Hôtels : <%= hotels.length %></p>
+              <p class="text-muted"> &ensp; &ensp;  &ensp;Hôtels : <%= hotels.length %></p>
             </div>
             <div class="col col-md-4"><br>
               <p>&ensp;&ensp;<button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#hotelModal">
