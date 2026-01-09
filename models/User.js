@@ -1,30 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+
 const userSchema = new mongoose.Schema({
-  nom: {
-    type: String,
-    required: true
-  },
-  adresse: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  image: {
-    type: String, // on stocke seulement le nom du fichier
-    required: false
-  },
-  termsAccepted: { // Nouveau champ ajouté
-    type: Boolean,
-    required: true,
-    default: false // par défaut, l'utilisateur n'a pas accepté les termes
-  }
+  nom: String,
+  adresse: String,
+  email: { type: String, unique: true },
+  password: String,
+  image: String // nom du fichier upload
 });
-module.exports = mongoose.model('User', userSchema);
+
+module.exports = mongoose.model("User", userSchema);

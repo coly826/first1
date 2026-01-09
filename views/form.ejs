@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Twyford - QC Formulaire</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-primary fixed-top">
+  <div class="container">
+    <a class="navbar-brand">TWYFORD QC FORMULAIRE</a>
+    <a class="btn btn-secondary btn-sm" href="/dashboard">Dashboard</a>
+    <a class="btn btn-danger btn-sm" href="/logout">Déconnexion</a>
+  </div>
+</nav>
+
+<div class="container mt-5 pt-3">
+  <h4 class="text-center text-primary mb-3">Ajouter un contrôle qualité</h4>
+
+  <form class="card p-4 shadow" method="POST" action="/form">
+    <div class="row g-3">
+      <div class="col-md-4"><label>Date</label><input type="date" name="date" class="form-control" required></div>
+
+      <div class="col-md-4">
+        <label>Mois</label>
+        <select name="mois" class="form-select">
+          <option>Janvier</option><option>Février</option><option>Mars</option><option>Avril</option>
+          <option>Mai</option><option>Juin</option><option>Juillet</option><option>Août</option>
+          <option>Septembre</option><option>Octobre</option><option>Novembre</option><option>Décembre</option>
+        </select>
+      </div>
+
+      <div class="col-md-4"><label>Groupe</label>
+        <select name="groupe" class="form-select"><option>A</option><option>B</option><option>C</option></select></div>
+
+      <div class="col-md-4"><label>Cartons</label><input type="number" name="cartons" class="form-control" value="0"></div>
+      <div class="col-md-4"><label>Pièces</label><input type="number" name="pieces" class="form-control" value="0"></div>
+      <div class="col-md-4"><label>Étiquettes</label><input type="number" name="etiquettes" class="form-control" value="0"></div>
+
+      <div class="col-md-4"><label>Edge</label><input type="number" name="edge" class="form-control" value="0"></div>
+      <div class="col-md-4"><label>Surface</label><input type="number" name="surface" class="form-control" value="0"></div>
+      <div class="col-md-4"><label>Broken</label><input type="number" name="broken" class="form-control" value="0"></div>
+
+      <div class="col-12"><button type="submit" class="btn btn-success w-100">Enregistrer</button></div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

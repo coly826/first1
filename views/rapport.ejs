@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapport Global QC</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container-fluid">
+    <span class="navbar-brand fw-bold">📊 RAPPORT GLOBAL QC</span>
+
+    <div class="ms-auto">
+      <a href="/dashboard" class="btn btn-light btn-sm">⬅ Dashboard</a>
+    </div>
+  </div>
+  
+</nav>
+
+<div class="container-fluid mt-5 pt-4 px-3">
+
+  <h4 class="text-primary mb-4 text-center text-md-start">
+    Historique des contrôles (Tous utilisateurs)
+  </h4>
+
+  <% 
+    const groupes = ["A","B","C"];
+    const moisListe = ["Janvier","Février","Mars","Avril","Mai","Juin",
+                       "Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+  %>
+
+  <!-- ================= GROUPES ================= -->
+  <% groupes.forEach(groupe => { %>
+    <% let filtres = data.filter(d => d.groupe === groupe); %>
+
+    <% if(filtres.length > 0){ %>
+      <h5 class="mt-4 text-secondary fw-bold">GROUPE <%= groupe %></h5>
+
+      <% 
+        let total = filtres.reduce((t, i) => ({
+          cartons: t.cartons + i.cartons,
+          pieces: t.pieces + i.pieces,
+          etiquettes: t.etiquettes + i.etiquettes,
+          edge: t.edge + i.edge,
+          surface: t.surface + i.surface,
+          broken: t.broken + i.broken
+        }), { cartons:0, pieces:0, etiquettes:0, edge:0, surface:0, broken:0 });
+      %>
+
+      <div class="table-responsive-lg">
+        <table class="table table-bordered table-striped align-middle text-center">
+          <thead class="table-primary">
+            <tr>
+              <th>Date</th>
+              <th>Mois</th>
+              <th>Utilisateur</th>
+              <th>Cartons</th>
+              <th>Pièces</th>
+              <th>Étiquettes</th>
+              <th>Edge</th>
+              <th>Surface</th>
+              <th>Broken</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% filtres.forEach(item => { %>
+              <tr>
+                <td><%= item.date %></td>
+                <td><%= item.mois %></td>
+                <td class="text-break"><%= item.user %></td>
+                <td><%= item.cartons %></td>
+                <td><%= item.pieces %></td>
+                <td><%= item.etiquettes %></td>
+                <td><%= item.edge %></td>
+                <td><%= item.surface %></td>
+                <td><%= item.broken %></td>
+                <td>
+                  <a 
+                    href="/delete/<%= item._id %>" 
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('Supprimer ce contrôle ?')"
+                  >
+                    ❌
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+
+            <!-- TOTAL GROUPE -->
+            <tr class="table-success fw-bold">
+              <td colspan="3">TOTAL GROUPE <%= groupe %></td>
+              <td><%= total.cartons %></td>
+              <td><%= total.pieces %></td>
+              <td><%= total.etiquettes %></td>
+              <td><%= total.edge %></td>
+              <td><%= total.surface %></td>
+              <td><%= total.broken %></td>
+              <td>—</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  <% }) %>
+
+  <!-- ================= TOTAUX PAR MOIS ================= -->
+  <h4 class="mt-5 text-primary fw-bold">Totaux finaux par mois</h4>
+
+  <% moisListe.forEach(mois => { %>
+    <% let filtresMois = data.filter(d => d.mois === mois); %>
+
+    <% if(filtresMois.length > 0){ %>
+      <% 
+        let totalMois = filtresMois.reduce((t, i) => ({
+          cartons: t.cartons + i.cartons,
+          pieces: t.pieces + i.pieces,
+          etiquettes: t.etiquettes + i.etiquettes,
+          edge: t.edge + i.edge,
+          surface: t.surface + i.surface,
+          broken: t.broken + i.broken
+        }), { cartons:0, pieces:0, etiquettes:0, edge:0, surface:0, broken:0 });
+      %>
+
+      <div class="table-responsive-md mt-3">
+        <table class="table table-bordered text-center">
+          <thead class="table-dark">
+            <tr>
+              <th colspan="6"><%= mois %></th>
+            </tr>
+            <tr>
+              <th>Cartons</th>
+              <th>Pièces</th>
+              <th>Étiquettes</th>
+              <th>Edge</th>
+              <th>Surface</th>
+              <th>Broken</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="fw-bold table-warning">
+              <td><%= totalMois.cartons %></td>
+              <td><%= totalMois.pieces %></td>
+              <td><%= totalMois.etiquettes %></td>
+              <td><%= totalMois.edge %></td>
+              <td><%= totalMois.surface %></td>
+              <td><%= totalMois.broken %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  <% }) %>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
